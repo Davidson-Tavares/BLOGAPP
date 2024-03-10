@@ -26,19 +26,20 @@ app.use(session({
     resave: true,// estava resove
     saveUninitialized: true
 }))
-app.use(flash())
 
+   
 //middleware
-//midleware
+app.use(flash())
 app.use((req, res, next) => {
     res.locals.success_msg = req.flash('success_msg')
     res.locals.error_msg = req.flash('error_msg')
     next()
 })
 
+
 //Handlebars
 app.set('views', path.join(__dirname, 'views'));//adicionei esta
-app.engine('.handlebars', handlebars.engine({
+app.engine('handlebars', handlebars.engine({
     defaultLayouts: 'main',
     extname: '.handlebars'
 }))
