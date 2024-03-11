@@ -13,10 +13,18 @@ router.get("/posts", (req, res) => {
     res.send("Pagina de posts")
 })
 //====================================
-
 router.get('/categorias', (req, res) => {
-    res.render('admin/categorias.handlebars')
-})
+    categoria
+        .find()
+        .sort({ date: 'desc' })
+        .lean()
+        .then((categorias) => res.render('admin/categorias', { categorias }))
+        .catch((err) => {
+            req.flash('error_msg', 'Houve um problema ao listar as categorias');
+            res.redirect('/admin');
+            console.error(err);
+        });
+});
 //===============================
 router.get('/categorias/add', (req, res) => {
     res.render('admin/addcategoria.handlebars')
@@ -31,12 +39,12 @@ router.post("/categorias/nova", (req, res) => {
     if (!req.body.slug || typeof req.body.slug == undefined || req.body.slug == null) {
         erros.push({ texto: "Slug inválido" })
     }
-    if (req.body.nome. length < 2) {
+    if (req.body.nome.length < 2) {
         erros.push({ texto: "Nome da categoria é muito pequeno !" })
     }
 
-    if(erros.length > 0){
-        res.render('admin/addcategoria.handlebars', {erros: erros})
+    if (erros.length > 0) {
+        res.render('admin/addcategoria.handlebars', { erros: erros })
     } else {
         const novaCategoria = {
             nome: req.body.nome,
@@ -44,11 +52,12 @@ router.post("/categorias/nova", (req, res) => {
         }
         new categoria(novaCategoria).save().then(() => {
             req.flash("success_msg", "Categoria criada com sucesso !");
-            res.render('admin/categorias', ({success_msg: req.flash('success_msg')}));
+            res.render('admin/categorias', ({ success_msg: req.flash('success_msg') }));
 
-        }).catch((err) => { 
+        }).catch((err) => {
             req.flash('error_msg', 'Houve um erro ao salvar a categoria, tente novamente!')
-            res.redirect('/admin')})
+            res.redirect('/admin')
+        })
 
     }
 })
