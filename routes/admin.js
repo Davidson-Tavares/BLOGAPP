@@ -6,9 +6,9 @@ const categoria = mongoose.model("categorias")
 require("../models/Postagem");
 const postagem = mongoose.model("postagens")
 
-router.get('/', (req, res) => {
+/*router.get('/', (req, res) => {
     res.render('admin/index.handlebars')
-})
+})*/
 //===========================
 
 router.get("/posts", (req, res) => {
