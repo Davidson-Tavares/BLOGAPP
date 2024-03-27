@@ -1,9 +1,9 @@
 
 <div class="jumbotron">
   <h1 class="display-4">Bem-Vindo ao Blog do Node</h1>
-  <p class="lead">Este é um simples componente jumbotron para chamar mais atenção a um determinado conteúdo ou informação.</p>
+  <p class="lead">Este e um BLOG simples, desenvolvido com Node.JS + Expess + MondgoDB.</p>
   <hr class="my-4">
-  <p>Ele usa classes utilitárias para tipografia e espaçamento de conteúdo, dentro do maior container.</p>
+  <p>Aqui voçê vai poder ler sobre as novidades do mundo da computação.</p>
   <a class="btn btn-primary btn-lg" href="#" role="button">Crie uma conta</a>
 </div>
 <hr>
@@ -14,7 +14,11 @@
 <div class="card mt-4">
     <div class="card-body">
         <h3>{{titulo}}</h3>
-        <p> Descrição : {{descricao}}</p>
+        <p> {{descricao}}</p>
+        <a href="/postagem/{{slug}} "><button class="btn btn-success">Leia mais</button></a>
+        <hr>
+        <small> Categoria : {{categoria.nome}}</small><br>
+        <small> Data de publicação: {{data}}</small>
     </div>
 </div>
 
