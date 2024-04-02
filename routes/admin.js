@@ -5,17 +5,18 @@ require("../models/Categoria");
 const categoria = mongoose.model("categorias")
 require("../models/Postagem");
 const postagem = mongoose.model("postagens")
+const{eAdmin} = require("../helpers/eAdmin")
 
-/*router.get('/', (req, res) => {
+router.get('/',eAdmin, (req, res) => {
     res.render('admin/index.handlebars')
-})*/
+})
 //===========================
 
-router.get("/posts", (req, res) => {
+router.get("/posts",eAdmin, (req, res) => {
     res.send("Pagina de posts")
 })
 //====================================
-router.get('/categorias', (req, res) => {
+router.get('/categorias', eAdmin, (req, res) => {
     categoria
         .find()
         .sort({ date: 'desc' })
@@ -28,12 +29,12 @@ router.get('/categorias', (req, res) => {
         });
 });
 //===============================
-router.get('/categorias/add', (req, res) => {
+router.get('/categorias/add',eAdmin, (req, res) => {
     res.render('admin/addcategoria.handlebars')
 })
 //============================= validaçao do formulario e envio para o bd
 
-router.post("/categorias/nova", (req, res) => {
+router.post("/categorias/nova",eAdmin, (req, res) => {
     var erros = []
     if (!req.body.nome || typeof req.body.nome == undefined || req.body.nome == null) {
         erros.push({ texto: "Nome inválido !" })
@@ -78,7 +79,7 @@ router.post('/categorias/deletar', (req, res) => {
 
 //===================== EDITAR CATEGORIAS
 
-router.get('/categorias/edit/:id', (req, res) => {
+router.get('/categorias/edit/:id', eAdmin,(req, res) => {
     categoria.findOne({ _id: req.params.id }).lean().then((categoria) => {
         res.render("admin/editcategorias", { categoria: categoria })
     }).catch((err) => {
@@ -109,7 +110,7 @@ router.post('/categorias/edit', (req, res) => {
 })
 //=============  POSTAGEM  =========== abaixo da rota estamos listado as postagens
 
-router.get("/postagens", (req, res) => {
+router.get("/postagens",eAdmin, (req, res) => {
     postagem.find().lean().populate("categoria").sort({ data: "desc" }).then((postagens) => {
         res.render("admin/postagens", { postagens: postagens })
     }).catch((err) => {
@@ -118,7 +119,7 @@ router.get("/postagens", (req, res) => {
     })
 })
 
-router.get('/postagens/add', (req, res) => {
+router.get('/postagens/add',eAdmin, (req, res) => {
     categoria.find().lean().then((categorias) => {
         res.render('admin/addpostagem', { categorias: categorias })
     }).catch((err) => {
