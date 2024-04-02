@@ -13,6 +13,8 @@ const postagem = mongoose.model("postagens")
 require("./models/Categoria.js")
 const categoria = mongoose.model("categorias")
 const usuarios = require("./routes/usuario.js")
+const passport = require("passport");
+require("./config/auth.js")(passport)
 
 
 //configurações
@@ -31,6 +33,10 @@ app.use(session({
     resave: true,// estava resove
     saveUninitialized: true
 }))
+//importante ficar nessa ordem
+app.use(passport.initialize())
+app.use(passport.session())
+app.use(flash())
 
 
 //middleware
@@ -38,8 +44,10 @@ app.use(flash())
 app.use((req, res, next) => {
     res.locals.success_msg = req.flash('success_msg')
     res.locals.error_msg = req.flash('error_msg')
+    res.locals.error = req.flash('error')
     next()
 })
+    
 
 
 //Handlebars
