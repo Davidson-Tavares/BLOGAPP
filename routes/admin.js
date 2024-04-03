@@ -67,7 +67,7 @@ router.post("/categorias/nova",eAdmin, (req, res) => {
 
 //=================== DELETAR CATEGORIA
 
-router.post('/categorias/deletar', (req, res) => {
+router.post('/categorias/deletar',eAdmin, (req, res) => {
     categoria.deleteOne({ _id: req.body.id }).then(() => {
         req.flash('success_msg', 'Categoria deletada com sucesso !')
         res.redirect('/admin/categorias')
@@ -90,7 +90,7 @@ router.get('/categorias/edit/:id', eAdmin,(req, res) => {
 })
 
 
-router.post('/categorias/edit', (req, res) => {
+router.post('/categorias/edit',eAdmin, (req, res) => {
     categoria.findOne({ _id: req.body.id }).then((categoria) => {
         categoria.nome = req.body.nome
         categoria.slug = req.body.slug
@@ -131,7 +131,7 @@ router.get('/postagens/add',eAdmin, (req, res) => {
 
 //===================== adicionar as postagem no bd e validar os campos do imputs. aqui so estmos validando o selec.
 
-router.post('/postagens/nova', (req, res) => {
+router.post('/postagens/nova',eAdmin, (req, res) => {
     var erros = []
     if (req.body.categoria == "0") {
         erros.push({ texto: "categoria invalida, registre uma categoria" })
@@ -159,7 +159,7 @@ router.post('/postagens/nova', (req, res) => {
 
 //=====================editar postagens ==================
 
-router.get('/postagens/edit/:id', (req, res) =>{
+router.get('/postagens/edit/:id',eAdmin, (req, res) =>{
     
     postagem.findOne({_id:req.params.id}).lean().then((postagem) => { 
         
@@ -176,7 +176,7 @@ router.get('/postagens/edit/:id', (req, res) =>{
 })
 
 
-router.post('/postagens/edit', (req, res) => {
+router.post('/postagens/edit', eAdmin,(req, res) => {
 
     postagem.findByIdAndUpdate({_id:req.body.id}).sort({data: 'desc'}).then((postagem) => {
 
@@ -204,7 +204,7 @@ router.post('/postagens/edit', (req, res) => {
 //------------------deletar postagens
 
 
-router.get('/postagens/deletar/:id', (req, res) => {
+router.get('/postagens/deletar/:id',eAdmin, (req, res) => {
     postagem.deleteOne({_id: req.params.id}).then(()=>{
         req.flash('success_msg', "Postagem deletada com sucesso !")
         res.redirect('/admin/postagens')
