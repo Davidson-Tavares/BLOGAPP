@@ -15,7 +15,7 @@ const categoria = mongoose.model("categorias")
 const usuarios = require("./routes/usuario.js")
 const passport = require("passport");
 require("./config/auth.js")(passport)
-
+const moment = require('moment')
 
 //configurações
 //Body Parser
@@ -55,8 +55,14 @@ app.use((req, res, next) => {
 app.set('views', path.join(__dirname, 'views'));//adicionei esta
 app.engine('handlebars', handlebars.engine({
     defaultLayouts: 'main',
-    extname: '.handlebars'
-}))
+    extname: '.handlebars',
+    helpers: {
+        formatDate: (date) => {
+            return moment(date).format('DD/MM/YYYY')
+            }
+        }
+    }
+))
 app.set('view engine', '.handlebars')
 
 
@@ -139,14 +145,27 @@ app.get('/404', (req, res) => {
 
 
 
-//--------------------------------------------------------------------
+//----------------------pagina todos posts--------------------------------------
+
 app.get('/posts', (req, res) => {
-    res.send("Lista de posts")
+    postagem.find().lean().populate("categoria").sort({ data: "desc" }).then((postagens) => {
+        res.render("postagem/todasPostagens.handlebars", { postagens: postagens })
+    }).catch((err) => {
+        req.flash("error_msg", "Houve um erro interno!")
+        res.redirect("/404")
+    })
 })
 
-//---------------------------------------------------------------
+//--------------------------------------
+app.get('/home', (req, res) => {
+    res.render('admin/home.handlebars')
+})
 
 
+
+
+
+//-----------------------------------------------------------------------
 app.use('/admin', admin);
 app.use('/usuarios', usuarios)
 

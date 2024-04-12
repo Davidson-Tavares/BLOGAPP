@@ -10,11 +10,7 @@ const{eAdmin} = require("../helpers/eAdmin")
 router.get('/',eAdmin, (req, res) => {
     res.render('admin/index.handlebars')
 })
-//===========================
 
-router.get("/posts",eAdmin, (req, res) => {
-    res.send("Pagina de posts")
-})
 //====================================
 router.get('/categorias', eAdmin, (req, res) => {
     categoria
@@ -108,6 +104,14 @@ router.post('/categorias/edit',eAdmin, (req, res) => {
         res.redirect('/admin/categorias')
     })
 })
+
+//=========================== todas as postagens
+
+router.get("/posts",eAdmin, (req, res) => {
+    res.render("postagem.index.handlebars")
+})
+       
+
 //=============  POSTAGEM  =========== abaixo da rota estamos listado as postagens
 
 router.get("/postagens",eAdmin, (req, res) => {
@@ -214,6 +218,11 @@ router.get('/postagens/deletar/:id',eAdmin, (req, res) => {
         res.redirect("/admin/postagens")
     })
 })
+
+
+
+
+
 
 
 

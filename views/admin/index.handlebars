@@ -3,8 +3,8 @@
   <h1 class="display-4">Bem-Vindo ao Blog do Node</h1>
   <p class="lead">Este e um BLOG simples, desenvolvido com Node.JS + Expess + MondgoDB.</p>
   <hr class="my-4">
-  <p>Aqui voçê vai poder ler sobre as novidades do mundo da computação.</p>
-  <a class="btn btn-primary btn-lg" href="#" role="button">Crie uma conta</a>
+  <p>Aqui você vai poder ler sobre as novidades do mundo da computação.</p>
+  <a class="btn btn-primary btn-lg" href="/usuarios/login" role="button">Crie uma conta</a>
 </div>
 <hr>
 
@@ -15,10 +15,12 @@
     <div class="card-body">
         <h3>{{titulo}}</h3>
         <p> {{descricao}}</p>
-        <a href="/postagem/{{slug}} "><button class="btn btn-success">Leia mais</button></a>
+
+        <a href="/postagem/{{slug}}"><button class="btn btn-success">Leia mais</button></a>
         <hr>
+        
         <small> Categoria : {{categoria.nome}}</small><br>
-        <small> Data de publicação: {{data}}</small>
+        <small> Data de publicação:{{#formatDate data}}{{/formatDate}} </small>
     </div>
 </div>
 
